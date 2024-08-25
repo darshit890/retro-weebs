@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 import { redis } from "@/lib/redis";
 import { Cart } from "@/lib/interface";
 import { ChceckoutButton, DeleteItem } from "@/components/SubmitButtons";
-import { delItem } from "@/app/action";
+import { CheckOut, delItem } from "@/app/action";
 
 export default async function BagRoute() {
   noStore();
@@ -30,7 +30,7 @@ export default async function BagRoute() {
 
   return (
     <div className="max-w-2xl mx-auto mt-10 min-h-[55vh]">
-      {!cart || !cart.items ? (
+      {!cart || !cart.items  ? (
         <div className="flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center mt-20">
           <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
             <ShoppingBag className="w-10 h-10 text-primary" />
@@ -82,7 +82,7 @@ export default async function BagRoute() {
               <p>${new Intl.NumberFormat("en-US").format(totalPrice)}</p>
             </div>
 
-            <form >
+            <form action={CheckOut}>
               <ChceckoutButton />
             </form>
           </div>
