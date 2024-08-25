@@ -34,6 +34,6 @@ export async function GET() {
   return NextResponse.redirect(
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000/"
-      : "https://retro-weebs-git-main-darshit-rajvanshs-projects.vercel.app/"
+      : "https://retro-weebs.vercel.app/"
   );
 }
