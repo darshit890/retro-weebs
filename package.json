@@ -24,6 +24,7 @@
     "@stripe/stripe-js": "^4.3.0",
     "@uploadthing/react": "^6.7.2",
     "@upstash/redis": "^1.33.0",
+    "admin-retro": "file:",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.1.7",

@@ -32,7 +32,7 @@ import Image from "next/image";
 import { categories } from "@/lib/categories";
 import { SubmitButton } from "@/components/SubmitButtons";
 
-const CreateRoutePage = () => {
+const page = () => {
   const [images, setImages] = useState<string[]>([]);
   const [lastResult, action] = useFormState(createProduct, undefined);
   const [form, fields] = useForm({
@@ -206,4 +206,4 @@ const CreateRoutePage = () => {
   );
 };
 
-export default CreateRoutePage;
+export default page;
