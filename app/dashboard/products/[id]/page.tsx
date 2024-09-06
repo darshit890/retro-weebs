@@ -15,6 +15,8 @@ async function getData(productId: string) {
     return notFound();
   }
 
+  console.log("\n\ndata")
+  console.log(data)
   return data;
 }
 

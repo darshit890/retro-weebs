@@ -44,6 +44,26 @@ interface iAppProps {
     images: string[];
     category: $Enums.Category;
     isFeatured: boolean;
+    color1: string;
+    color2: string;
+    color3: string;
+    color4: string;
+    color5: string;
+    size1: string;
+    size2: string;
+    size3: string;
+    size4: string;
+    size5: string;
+    colorVal1: number;
+    colorVal2: number;
+    colorVal3: number;
+    colorVal4: number;
+    colorVal5: number;
+    sizeVal1: number;
+    sizeVal2: number;
+    sizeVal3: number;
+    sizeVal4: number;
+    sizeVal5: number;
   };
 }
 
@@ -215,6 +235,369 @@ export function EditForm({ data }: iAppProps) {
               )}
 
               <p className="text-red-500">{fields.images.errors}</p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+            <details>
+            <summary>Color Variants</summary>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 w-full">
+                <div>
+                  <Label>Color 1</Label>
+                  <Input
+                    key={fields.color1.key}
+                    name={fields.color1.name}
+                    defaultValue={data.color1}
+                    type="text"
+                    placeholder="Color 1"
+                  />
+                  <p className="text-red-500">{fields.color1.errors}</p>
+                </div>
+                <div>
+                  <Label>Extra Value</Label>
+                  <Input
+                    key={fields.colorVal1.key}
+                    name={fields.colorVal1.name}
+                    defaultValue={data.colorVal1}
+                    type="number"
+                    placeholder="Value 1"
+                  />
+                  <p className="text-red-500">{fields.colorVal1.errors}</p>
+                </div>
+                <div>
+                  <Label>Total</Label>
+                  <Input
+                    defaultValue={
+                      fields.price.value && fields.colorVal1.value
+                        ? Number(fields.price.value) +
+                          Number(fields.colorVal1.value)
+                        : 0
+                    }
+                    type="number"
+                    placeholder="0"
+                    disabled
+                  />
+                  <p className="text-red-500">{fields.color1.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.color2.key}
+                    name={fields.color2.name}
+                    defaultValue={data.color2}
+                    type="text"
+                    placeholder="Color 2"
+                  />
+                  <p className="text-red-500">{fields.color2.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.colorVal2.key}
+                    name={fields.colorVal2.name}
+                    defaultValue={data.colorVal2}
+                    type="number"
+                    placeholder="Value 2"
+                  />
+                  <p className="text-red-500">{fields.colorVal2.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    defaultValue={
+                      fields.price.value && fields.colorVal2.value
+                        ? Number(fields.price.value) +
+                          Number(fields.colorVal2.value)
+                        : 0
+                    }
+                    type="number"
+                    placeholder="0"
+                    disabled
+                  />
+                  <p className="text-red-500">{fields.color2.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.color3.key}
+                    name={fields.color3.name}
+                    defaultValue={data.color3}
+                    type="text"
+                    placeholder="Color 3"
+                  />
+                  <p className="text-red-500">{fields.color3.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.colorVal3.key}
+                    name={fields.colorVal3.name}
+                    defaultValue={data.colorVal3}
+                    type="number"
+                    placeholder="Value 3"
+                  />
+                  <p className="text-red-500">{fields.colorVal3.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    defaultValue={
+                      fields.price.value && fields.colorVal3.value
+                        ? Number(fields.price.value) +
+                          Number(fields.colorVal3.value)
+                        : 0
+                    }
+                    type="number"
+                    placeholder="0"
+                    disabled
+                  />
+                  <p className="text-red-500">{fields.color3.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.color4.key}
+                    name={fields.color4.name}
+                    defaultValue={data.color4}
+                    type="text"
+                    placeholder="Color 4"
+                  />
+                  <p className="text-red-500">{fields.color4.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.colorVal4.key}
+                    name={fields.colorVal4.name}
+                    defaultValue={data.colorVal4}
+                    type="number"
+                    placeholder="Value 4"
+                  />
+                  <p className="text-red-500">{fields.colorVal4.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    defaultValue={
+                      fields.price.value && fields.colorVal4.value
+                        ? Number(fields.price.value) +
+                          Number(fields.colorVal4.value)
+                        : 0
+                    }
+                    type="number"
+                    placeholder="0"
+                    disabled
+                  />
+                  <p className="text-red-500">{fields.color4.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.color5.key}
+                    name={fields.color5.name}
+                    defaultValue={data.color5}
+                    type="text"
+                    placeholder="Color 5"
+                  />
+                  <p className="text-red-500">{fields.color5.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.colorVal5.key}
+                    name={fields.colorVal5.name}
+                    defaultValue={data.colorVal5}
+                    type="number"
+                    placeholder="Value 5"
+                  />
+                  <p className="text-red-500">{fields.colorVal5.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    defaultValue={
+                      fields.price.value && fields.colorVal5.value
+                        ? Number(fields.price.value) +
+                          Number(fields.colorVal5.value)
+                        : 0
+                    }
+                    type="number"
+                    placeholder="0"
+                    disabled
+                  />
+                  <p className="text-red-500">{fields.color5.errors}</p>
+                </div>
+              </div>
+              </details>
+            </div>
+
+            <div className="flex flex-col gap-3">
+            <details>
+            <summary>Size Variants</summary>
+            
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 w-full">
+                <div>
+                  <Label>Size 1</Label>
+                  <Input
+                    key={fields.size1.key}
+                    name={fields.size1.name}
+                    defaultValue={data.size1}
+                    type="text"
+                    placeholder="Size 1"
+                  />
+                  <p className="text-red-500">{fields.size1.errors}</p>
+                </div>
+                <div>
+                  <Label>Extra Value</Label>
+                  <Input
+                    key={fields.sizeVal1.key}
+                    name={fields.sizeVal1.name}
+                    defaultValue={data.sizeVal1}
+                    type="number"
+                    placeholder="Value 1"
+                  />
+                  <p className="text-red-500">{fields.sizeVal1.errors}</p>
+                </div>
+                <div>
+                  <Label>Total</Label>
+                  <Input
+                    defaultValue={
+                      fields.price.value && fields.sizeVal1.value
+                        ? Number(fields.price.value) +
+                          Number(fields.sizeVal1.value)
+                        : 0
+                    }
+                    type="number"
+                    placeholder="0"
+                    disabled
+                  />
+                  <p className="text-red-500">{fields.size1.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.size2.key}
+                    name={fields.size2.name}
+                    defaultValue={data.size2}
+                    type="text"
+                    placeholder="Size 2"
+                  />
+                  <p className="text-red-500">{fields.size2.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.sizeVal2.key}
+                    name={fields.sizeVal2.name}
+                    defaultValue={data.sizeVal2}
+                    type="number"
+                    placeholder="Value 2"
+                  />
+                  <p className="text-red-500">{fields.sizeVal2.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    defaultValue={
+                      fields.price.value && fields.sizeVal2.value
+                        ? Number(fields.price.value) +
+                          Number(fields.sizeVal2.value)
+                        : 0
+                    }
+                    type="number"
+                    placeholder="0"
+                    disabled
+                  />
+                  <p className="text-red-500">{fields.size2.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.size3.key}
+                    name={fields.size3.name}
+                    defaultValue={data.size3}
+                    type="text"
+                    placeholder="Size 3"
+                  />
+                  <p className="text-red-500">{fields.size3.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.sizeVal3.key}
+                    name={fields.sizeVal3.name}
+                    defaultValue={data.sizeVal3}
+                    type="number"
+                    placeholder="Value 3"
+                  />
+                  <p className="text-red-500">{fields.sizeVal3.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    defaultValue={
+                      fields.price.value && fields.sizeVal3.value
+                        ? Number(fields.price.value) +
+                          Number(fields.sizeVal3.value)
+                        : 0
+                    }
+                    type="number"
+                    placeholder="0"
+                    disabled
+                  />
+                  <p className="text-red-500">{fields.size3.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.size4.key}
+                    name={fields.size4.name}
+                    defaultValue={data.size4}
+                    type="text"
+                    placeholder="Size 4"
+                  />
+                  <p className="text-red-500">{fields.size4.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.sizeVal4.key}
+                    name={fields.sizeVal4.name}
+                    defaultValue={data.sizeVal4}
+                    type="number"
+                    placeholder="Value 4"
+                  />
+                  <p className="text-red-500">{fields.sizeVal4.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    defaultValue={
+                      fields.price.value && fields.sizeVal4.value
+                        ? Number(fields.price.value) +
+                          Number(fields.sizeVal4.value)
+                        : 0
+                    }
+                    type="number"
+                    placeholder="0"
+                    disabled
+                  />
+                  <p className="text-red-500">{fields.size4.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.size5.key}
+                    name={fields.size5.name}
+                    defaultValue={data.size5}
+                    type="text"
+                    placeholder="Size 5"
+                  />
+                  <p className="text-red-500">{fields.size5.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    key={fields.sizeVal5.key}
+                    name={fields.sizeVal5.name}
+                    defaultValue={data.sizeVal5}
+                    type="number"
+                    placeholder="Value 5"
+                  />
+                  <p className="text-red-500">{fields.sizeVal5.errors}</p>
+                </div>
+                <div>
+                  <Input
+                    defaultValue={
+                      fields.price.value && fields.sizeVal5.value
+                        ? Number(fields.price.value) +
+                          Number(fields.sizeVal5.value)
+                        : 0
+                    }
+                    type="number"
+                    placeholder="0"
+                    disabled
+                  />
+                  <p className="text-red-500">{fields.size5.errors}</p>
+                </div>
+              </div>
+              </details>
             </div>
           </div>
         </CardContent>

@@ -1,7 +1,7 @@
-"use server"
+"use server";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
-import { parseWithZod } from "@conform-to/zod"
+import { parseWithZod } from "@conform-to/zod";
 import { bannerSchema, productSchema } from "@/lib/zodSchemas";
 import prisma from "@/lib/db";
 import { redis } from "@/lib/redis";
@@ -23,11 +23,16 @@ export async function createProduct(prevState: unknown, formData: FormData) {
     schema: productSchema,
   });
 
-  if(submission.status !== "success") {
+  if (submission.status !== "success") {
     return submission.reply();
   }
 
-  const flattenUrls = submission.value.images.flatMap((urlString) => urlString.split(",").map((url) => url.trim()))
+  const flattenUrls = submission.value.images.flatMap((urlString) =>
+    urlString.split(",").map((url) => url.trim())
+  );
+
+  // console.log("\n\nsubmission.value");
+  // console.log(submission.value);
 
   await prisma.product.create({
     data: {
@@ -37,11 +42,31 @@ export async function createProduct(prevState: unknown, formData: FormData) {
       price: submission.value.price,
       images: flattenUrls,
       category: submission.value.category,
-      isFeatured: submission.value.isFeatured
-    }
-  })
+      isFeatured: submission.value.isFeatured,
+      color1: submission.value.color1 ?? "",
+      color2: submission.value.color2 ?? "",
+      color3: submission.value.color3 ?? "",
+      color4: submission.value.color4 ?? "",
+      color5: submission.value.color5 ?? "",
+      size1: submission.value.size1 ?? "",
+      size2: submission.value.size2 ?? "",
+      size3: submission.value.size3 ?? "",
+      size4: submission.value.size4 ?? "",
+      size5: submission.value.size5 ?? "",
+      colorVal1: submission.value.colorVal1 ?? 0,
+      colorVal2: submission.value.colorVal2 ?? 0,
+      colorVal3: submission.value.colorVal3 ?? 0,
+      colorVal4: submission.value.colorVal4 ?? 0,
+      colorVal5: submission.value.colorVal5 ?? 0,
+      sizeVal1: submission.value.sizeVal1 ?? 0,
+      sizeVal2: submission.value.sizeVal2 ?? 0,
+      sizeVal3: submission.value.sizeVal3 ?? 0,
+      sizeVal4: submission.value.sizeVal4 ?? 0,
+      sizeVal5: submission.value.sizeVal5 ?? 0,
+    },
+  });
 
-  redirect('/dashboard/products')
+  redirect("/dashboard/products");
 }
 
 export async function editProduct(prevState: any, formData: FormData) {
@@ -72,11 +97,31 @@ export async function editProduct(prevState: any, formData: FormData) {
     data: {
       name: submission.value.name,
       description: submission.value.description,
-      category: submission.value.category,
-      price: submission.value.price,
-      isFeatured: submission.value.isFeatured === true ? true : false,
       status: submission.value.status,
+      price: submission.value.price,
       images: flattenUrls,
+      category: submission.value.category,
+      isFeatured: submission.value.isFeatured,
+      color1: submission.value.color1 ?? "",
+      color2: submission.value.color2 ?? "",
+      color3: submission.value.color3 ?? "",
+      color4: submission.value.color4 ?? "",
+      color5: submission.value.color5 ?? "",
+      size1: submission.value.size1 ?? "",
+      size2: submission.value.size2 ?? "",
+      size3: submission.value.size3 ?? "",
+      size4: submission.value.size4 ?? "",
+      size5: submission.value.size5 ?? "",
+      colorVal1: submission.value.colorVal1 ?? 0,
+      colorVal2: submission.value.colorVal2 ?? 0,
+      colorVal3: submission.value.colorVal3 ?? 0,
+      colorVal4: submission.value.colorVal4 ?? 0,
+      colorVal5: submission.value.colorVal5 ?? 0,
+      sizeVal1: submission.value.sizeVal1 ?? 0,
+      sizeVal2: submission.value.sizeVal2 ?? 0,
+      sizeVal3: submission.value.sizeVal3 ?? 0,
+      sizeVal4: submission.value.sizeVal4 ?? 0,
+      sizeVal5: submission.value.sizeVal5 ?? 0,
     },
   });
 
@@ -239,27 +284,25 @@ export async function CheckOut() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
-  if(!user) {
-    return redirect("/")
+  if (!user) {
+    return redirect("/");
   }
 
   let cart: Cart | null = await redis.get(`cart-${user.id}`);
 
-  if(cart && cart.items) {
-
-    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = cart.items.map((item) => (
-      {
+  if (cart && cart.items) {
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
+      cart.items.map((item) => ({
         price_data: {
-          currency: 'usd',
+          currency: "usd",
           unit_amount: item.price * 100,
           product_data: {
             name: item.name,
-            images: [item.imageString]
-          }
+            images: [item.imageString],
+          },
         },
-        quantity: item.quantity
-      }
-    ))
+        quantity: item.quantity,
+      }));
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -267,10 +310,10 @@ export async function CheckOut() {
       success_url: "https://retro-weebs.vercel.app/payment/success",
       cancel_url: "https://retro-weebs.vercel.app/payment/cancel",
       metadata: {
-        userId: user.id
-      }
-    })
+        userId: user.id,
+      },
+    });
 
-    return redirect(session.url as string)
+    return redirect(session.url as string);
   }
 }

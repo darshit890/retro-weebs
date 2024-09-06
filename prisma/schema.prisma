@@ -34,6 +34,26 @@ model Product {
   images      String[]
   category    Category
   isFeatured  Boolean       @default(false)
+  color1      String
+  color2      String
+  color3      String
+  color4      String
+  color5      String
+  size1       String
+  size2       String
+  size3       String
+  size4       String
+  size5       String
+  colorVal1   Int
+  colorVal2   Int
+  colorVal3   Int
+  colorVal4   Int
+  colorVal5   Int
+  sizeVal1    Int
+  sizeVal2    Int
+  sizeVal3    Int
+  sizeVal4    Int
+  sizeVal5    Int
 
   createdAt DateTime @default(now())
 }
