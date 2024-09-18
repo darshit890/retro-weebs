@@ -9,7 +9,8 @@
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
-  "dependencies": {
+  "dependencies":
+    "lodash": "^4.17.21",
     "@conform-to/react": "^1.1.5",
     "@conform-to/zod": "^1.1.5",
     "@kinde-oss/kinde-auth-nextjs": "^2.3.6",
