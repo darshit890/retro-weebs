@@ -41,7 +41,7 @@ export function ProductCard({ item }: ProductCardProps) {
         <div className="flex justify-between items-center mb-2">
           <h2 className="font-semibold text-xl truncate">{item.name}</h2>
           <span className="inline-flex items-center rounded-md bg-primary/10 px-2 py-1 text-xs font-medium text-primary ring-1 ring-inset ring-primary/10">
-            ${item.price.toFixed(2)}
+          ₹{item.price.toFixed(2)}
           </span>
         </div>
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">

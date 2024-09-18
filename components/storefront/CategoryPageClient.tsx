@@ -19,7 +19,7 @@ export default function Component({ initialProducts }: CategoryPageClientProps) 
   const [products, setProducts] = useState<Product[]>(initialProducts)
   const [categories, setCategories] = useState<Category[]>([])
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([])
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000])
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000])
   const [colors, setColors] = useState<string[]>([])
   const [selectedColors, setSelectedColors] = useState<string[]>([])
   const [sizes, setSizes] = useState<string[]>([])
@@ -94,8 +94,8 @@ export default function Component({ initialProducts }: CategoryPageClientProps) 
         <h3 className="font-medium mb-4 text-gray-700">Price Range</h3>
         <SmoothSlider
           min={0}
-          max={1000}
-          step={10}
+          max={10000}
+          step={100}
           value={priceRange}
           onChange={handlePriceRangeChange}
         />
@@ -140,7 +140,7 @@ export default function Component({ initialProducts }: CategoryPageClientProps) 
 
         {/* Desktop Filters */}
         <div className="hidden lg:block w-1/4">
-          <div className="  bg-white p-6 rounded-lg shadow-md min-w-[15rem] xl:min-w-[18rem] max-h-[calc(100vh-2rem)] overflow-y-auto ">
+          <div className="bg-white p-6 rounded-lg shadow-md min-w-[15rem] xl:min-w-[18rem] max-h-[calc(100vh-2rem)] overflow-y-auto">
             <h2 className="text-2xl font-semibold mb-6 text-gray-800">Filters</h2>
             <FilterContent />
           </div>

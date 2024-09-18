@@ -40,7 +40,7 @@ export function ProductDetails({
       <CardContent className="p-6">
         <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 mb-4">{name}</h1>
         <div className="flex items-center justify-between mb-6">
-          <p className="text-3xl font-bold text-gray-900">${totalPrice.toFixed(2)}</p>
+          <p className="text-3xl font-bold text-gray-900">₹{totalPrice.toFixed(2)}</p>
           <div className="flex items-center">
             {[...Array(5)].map((_, i) => (
               <StarIcon key={i} className="h-5 w-5 text-yellow-400 fill-current" />
@@ -64,7 +64,7 @@ export function ProductDetails({
               <SelectContent>
                 {colorOptions.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
-                    {option.label} {option.price > 0 && `(+$${option.price.toFixed(2)})`}
+                    {option.label} {option.price > 0 && `(+₹${option.price.toFixed(2)})`}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -85,7 +85,7 @@ export function ProductDetails({
               <SelectContent>
                 {sizeOptions.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
-                    {option.label} {option.price > 0 && `(+$${option.price.toFixed(2)})`}
+                    {option.label} {option.price > 0 && `(+₹${option.price.toFixed(2)})`}
                   </SelectItem>
                 ))}
               </SelectContent>

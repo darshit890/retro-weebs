@@ -12,7 +12,7 @@ interface SliderProps {
   onChange: (value: [number, number]) => void
 }
 
-export default function SmoothSlider({ min, max, step = 1, value, onChange }: SliderProps) {
+export default function SmoothSlider({ min, max, step = 100, value, onChange }: SliderProps) {
   const [localValue, setLocalValue] = useState(value)
   const [isDragging, setIsDragging] = useState<'min' | 'max' | null>(null)
   const sliderRef = useRef<HTMLDivElement>(null)
@@ -119,8 +119,8 @@ export default function SmoothSlider({ min, max, step = 1, value, onChange }: Sl
         ))}
       </div>
       <div className="flex justify-between mt-2">
-        <Label className="text-sm text-gray-600">${localValue[0]}</Label>
-        <Label className="text-sm text-gray-600">${localValue[1]}</Label>
+        <Label className="text-sm text-gray-600">₹{localValue[0]}</Label>
+        <Label className="text-sm text-gray-600">₹{localValue[1]}</Label>
       </div>
     </div>
   )
