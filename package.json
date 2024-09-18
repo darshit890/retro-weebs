@@ -9,7 +9,7 @@
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
-  "dependencies":
+  "dependencies": {
     "lodash": "^4.17.21",
     "@conform-to/react": "^1.1.5",
     "@conform-to/zod": "^1.1.5",
@@ -33,7 +33,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.1.7",
-    "lodash": "^4.17.21",
     "lucide-react": "^0.408.0",
     "next": "14.2.5",
     "react": "^18",
