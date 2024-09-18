@@ -188,7 +188,7 @@ export async function deleteBanner(formData: FormData) {
   redirect("/dashboard/banner");
 }
 
-export async function addItem(productId: string) {
+export async function addItem(productId: string, formData: FormData) {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
@@ -204,6 +204,26 @@ export async function addItem(productId: string) {
       name: true,
       price: true,
       images: true,
+      color1: true,
+      color2: true,
+      color3: true,
+      color4: true,
+      color5: true,
+      size1: true,
+      size2: true,
+      size3: true,
+      size4: true,
+      size5: true,
+      colorVal1: true,
+      colorVal2: true,
+      colorVal3: true,
+      colorVal4: true,
+      colorVal5: true,
+      sizeVal1: true,
+      sizeVal2: true,
+      sizeVal3: true,
+      sizeVal4: true,
+      sizeVal5: true,
     },
     where: {
       id: productId,
@@ -213,6 +233,21 @@ export async function addItem(productId: string) {
   if (!selectedProduct) {
     throw new Error("No product with this id");
   }
+
+  const colorValue = formData.get("color") as string;
+  const sizeValue = formData.get("size") as string;
+
+  const colorIndex = parseInt(colorValue.slice(-1));
+  const sizeIndex = parseInt(sizeValue.slice(-1));
+
+  const colorName = selectedProduct[`color${colorIndex}` as keyof typeof selectedProduct] as string || 'Default';
+  const sizeName = selectedProduct[`size${sizeIndex}` as keyof typeof selectedProduct] as string || 'Default';
+
+  const colorPrice = selectedProduct[`colorVal${colorIndex}` as keyof typeof selectedProduct] as number || 0;
+  const sizePrice = selectedProduct[`sizeVal${sizeIndex}` as keyof typeof selectedProduct] as number || 0;
+
+  const totalPrice = selectedProduct.price + colorPrice + sizePrice;
+
   let myCart = {} as Cart;
 
   if (!cart || !cart.items) {
@@ -220,11 +255,13 @@ export async function addItem(productId: string) {
       userId: user.id,
       items: [
         {
-          price: selectedProduct.price,
+          price: totalPrice,
           id: selectedProduct.id,
           imageString: selectedProduct.images[0],
           name: selectedProduct.name,
           quantity: 1,
+          color: colorName,
+          size: sizeName,
         },
       ],
     };
@@ -232,11 +269,10 @@ export async function addItem(productId: string) {
     let itemFound = false;
 
     myCart.items = cart.items.map((item) => {
-      if (item.id === productId) {
+      if (item.id === productId && item.color === colorName && item.size === sizeName) {
         itemFound = true;
         item.quantity += 1;
       }
-
       return item;
     });
 
@@ -245,8 +281,10 @@ export async function addItem(productId: string) {
         id: selectedProduct.id,
         imageString: selectedProduct.images[0],
         name: selectedProduct.name,
-        price: selectedProduct.price,
+        price: totalPrice,
         quantity: 1,
+        color: colorName,
+        size: sizeName,
       });
     }
   }

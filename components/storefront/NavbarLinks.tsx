@@ -3,6 +3,13 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ChevronDown } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const navbarLinks = [
   {
@@ -12,43 +19,73 @@ export const navbarLinks = [
   },
   {
     id: 1,
-    name: "All Products",
-    href: "/products/all",
+    name: "Products",
+    href: "/products",
+    subItems: [
+      { name: "All Products", href: "/products/all" },
+    ],
   },
   {
     id: 2,
-    name: "Men",
-    href: "/products/men",
+    name: "Categories",
+    href: "/categories",
+    subItems: [
+      { name: "All Categories", href: "/category" },
+      { name: "T-shirts", href: "/category/tshirts" },
+      { name: "Shorts", href: "/category/shorts" },
+      { name: "Joggers", href: "/category/joggers" },
+      { name: "Hoodies", href: "/category/hoodies" },
+      { name: "Oversized Tees", href: "/category/oversized" },
+    ],
   },
-  {
-    id: 3,
-    name: "Women",
-    href: "/products/women",
-  },
-  {
-    id: 4,
-    name: "Kids",
-    href: "/products/kids",
-  },
+  
 ];
 
 export function NavbarLinks() {
-  const location = usePathname();
+  const pathname = usePathname();
+
   return (
-    <div className="hidden md:flex justify-center items-center gap-x-2 ml-8">
+    <div className="flex md:items-center space-x-1 flex-col gap-y-2  md:flex-row">
       {navbarLinks.map((item) => (
-        <Link
-          href={item.href}
-          key={item.id}
-          className={cn(
-            location === item.href
-              ? "bg-muted"
-              : "hover:bg-muted hover:bg-opacity-75",
-            "group p-2 font-medium rounded-md"
+        <div key={item.id}>
+          {item.subItems ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100 hover:text-gray-900">
+                {item.name}
+                <ChevronDown className="w-4 h-4 ml-1" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {item.subItems.map((subItem) => (
+                  <DropdownMenuItem key={subItem.href}>
+                    <Link
+                      href={subItem.href}
+                      className={cn(
+                        "w-full text-sm",
+                        pathname === subItem.href
+                          ? "font-medium text-primary"
+                          : "text-gray-700 hover:text-gray-900"
+                      )}
+                    >
+                      {subItem.name}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link
+              href={item.href}
+              className={cn(
+                "px-3 py-2 text-sm font-medium rounded-md",
+                pathname === item.href
+                  ? "bg-primary text-primary-foreground"
+                  : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              )}
+            >
+              {item.name}
+            </Link>
           )}
-        >
-          {item.name}
-        </Link>
+        </div>
       ))}
     </div>
   );

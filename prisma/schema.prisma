@@ -84,7 +84,9 @@ enum ProductStatus {
 }
 
 enum Category {
-  men
-  women
-  kids
+  tshirts
+  oversized
+  joggers
+  hoodies
+  shorts
 }

@@ -25,66 +25,6 @@ async function getData(productCategory: string) {
         data: data,
       };
     }
-    case "men": {
-      const data = await prisma.product.findMany({
-        where: {
-          status: "published",
-          category: "men",
-        },
-        select: {
-          name: true,
-          images: true,
-          price: true,
-          id: true,
-          description: true,
-        },
-      });
-
-      return {
-        title: "Products for Men",
-        data: data,
-      };
-    }
-    case "women": {
-      const data = await prisma.product.findMany({
-        where: {
-          status: "published",
-          category: "women",
-        },
-        select: {
-          name: true,
-          images: true,
-          price: true,
-          id: true,
-          description: true,
-        },
-      });
-
-      return {
-        title: "Products to Women",
-        data: data,
-      };
-    }
-    case "kids": {
-      const data = await prisma.product.findMany({
-        where: {
-          status: "published",
-          category: "kids",
-        },
-        select: {
-          name: true,
-          images: true,
-          price: true,
-          id: true,
-          description: true,
-        },
-      });
-
-      return {
-        title: "Products for Kids",
-        data: data,
-      };
-    }
     default: {
       return notFound();
     }

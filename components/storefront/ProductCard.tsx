@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -10,65 +9,62 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 import Link from "next/link";
+import { Product } from '@/app/(storefront)/category/page';
 
-interface iAppProps {
-  item: {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    images: string[];
-  };
+interface ProductCardProps {
+  item: any;
 }
 
-export function ProductCard({ item }: iAppProps) {
+export function ProductCard({ item }: ProductCardProps) {
   return (
-    <div className="rounded-lg">
+    <div className="rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
       <Carousel className="w-full mx-auto">
         <CarouselContent>
-          {item.images.map((item, index) => (
+          {item.images.map((image: string, index: any) => (
             <CarouselItem key={index}>
               <div className="relative h-[330px]">
                 <Image
-                  src={item}
-                  alt="Product Image"
+                  src={image}
+                  alt={`${item.name} - Image ${index + 1}`}
                   fill
-                  className="object-cover object-center w-full h-full rounded-lg"
+                  className="object-cover object-center w-full h-full rounded-t-lg"
                 />
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="ml-16" />
-        <CarouselNext className="mr-16" />
+        <CarouselPrevious className="left-2" />
+        <CarouselNext className="right-2" />
       </Carousel>
 
-      <div className="flex justify-between items-center mt-2">
-        <h1 className="font-semibold text-xl">{item.name}</h1>
-        <h3 className="inline-flex items-center rounded-md bg-primary/10 px-2 py-1 text-xs font-medium text-primary ring-1 ring-inset ring-primary/10">
-          ${item.price}
-        </h3>
-      </div>
-      <p className="text-gray-600 text-sm mt-2 line-clamp-2">
-        {item.description}
-      </p>
+      <div className="p-4">
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="font-semibold text-xl truncate">{item.name}</h2>
+          <span className="inline-flex items-center rounded-md bg-primary/10 px-2 py-1 text-xs font-medium text-primary ring-1 ring-inset ring-primary/10">
+            ${item.price.toFixed(2)}
+          </span>
+        </div>
+        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+          {item.description}
+        </p>
 
-      <Button asChild className="w-full mt-5">
-        <Link href={`/product/${item.id}`}>Learn More!</Link>
-      </Button>
+        <Button asChild className="w-full">
+          <Link href={`/product/${item.id}`}>View Details</Link>
+        </Button>
+      </div>
     </div>
   );
 }
 
 export function LoadingProductCard() {
   return (
-    <div className="flex flex-col">
-      <Skeleton className="w-full h-[330px]" />
-      <div className="flex flex-col mt-2 gap-y-2">
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="w-full h-6" />
+    <div className="rounded-lg shadow-md">
+      <Skeleton className="w-full h-[330px] rounded-t-lg" />
+      <div className="p-4">
+        <Skeleton className="h-6 w-3/4 mb-2" />
+        <Skeleton className="h-4 w-full mb-4" />
+        <Skeleton className="w-full h-10" />
       </div>
-      <Skeleton className="w-full h-10 mt-5" />
     </div>
   );
 }
