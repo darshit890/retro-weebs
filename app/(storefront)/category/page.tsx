@@ -39,7 +39,7 @@ export default async function CategoryPage({
   const products = await getProducts(searchParams.category);
 
   return (
-    <div className=" ">
+    <div className=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="">
         <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Our Products</h1>
         <Suspense fallback={<LoadingUI />}>
@@ -52,7 +52,7 @@ export default async function CategoryPage({
 
 function LoadingUI() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {Array.from({ length: 6 }).map((_, index) => (
         <LoadingProductCard key={index} />
       ))}

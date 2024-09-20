@@ -78,7 +78,7 @@ export default async function ProductIdRoute({
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start lg:gap-x-24 py-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start lg:gap-x-24 py-6 max-w-7xl mx-auto md:px-6 px-4 lg:px-8">
         <ImageSlider images={data.images} />
         <ProductDetails
           name={data.name}
@@ -90,7 +90,7 @@ export default async function ProductIdRoute({
         />
       </div>
 
-      <div className="mt-16">
+      <div className="mt-16 max-w-7xl mx-auto md:px-6 px-4 lg:px-8">
         <FeaturedProducts />
       </div>
     </>

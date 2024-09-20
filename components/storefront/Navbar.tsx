@@ -23,8 +23,8 @@ export async function Navbar() {
   const total = cart?.items.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
-      <div className="px-4 sm:px-6 lg:px-8">
+    <nav className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 ">
+      <div className="px-4 sm:px-6 lg:px-8 mx-auto md:px-6 max-w-7xl">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0">

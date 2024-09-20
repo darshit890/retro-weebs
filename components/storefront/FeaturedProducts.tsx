@@ -30,10 +30,12 @@ async function getData() {
 export function FeaturedProducts() {
   return (
     <>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 className="text-2xl font-extrabold tracking-tight">Featured Items</h2>
       <Suspense fallback={<LoadingRows />}>
         <LoadFeaturedproducts />
       </Suspense>
+      </div>
     </>
   );
 }

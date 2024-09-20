@@ -6,7 +6,7 @@ import women from "@/public/women.jpeg";
 
 export function CategoriesSelection() {
   return (
-    <div className="py-24 sm:py-32">
+    <div className="py-24 sm:py-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-extrabold tracking-tight">
           Shop by Category
