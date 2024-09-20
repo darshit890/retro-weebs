@@ -24,12 +24,12 @@ export async function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0">
               <h1 className="text-black font-bold text-xl lg:text-2xl">
-                Anime<span className="text-primary">Merch</span>
+                Retro<span className="text-primary">Weebs</span>
               </h1>
             </Link>
             <div className="hidden md:block ml-10">

@@ -40,7 +40,7 @@ export default async function CategoryPage({
 
   return (
     <div className=" ">
-      <div className="container mx-auto px-4 py-8">
+      <div className="">
         <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Our Products</h1>
         <Suspense fallback={<LoadingUI />}>
           <CategoryPageClient initialProducts={products} />
