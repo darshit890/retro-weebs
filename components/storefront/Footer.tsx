@@ -40,13 +40,21 @@ export function Footer() {
           <div>
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Help Center</h3>
             <ul className="space-y-2">
-              {['Size Guide', 'Contact Us'].map((item) => (
-                <li key={item}>
-                  <Link href={`/${item.toLowerCase().replace(' ', '-')}`} className="text-sm hover:text-white transition-colors">
-                    {item}
+                <li >
+                  <Link href={`/shipping-policy`} className="text-sm hover:text-white transition-colors">
+                    Shipping Policy
                   </Link>
                 </li>
-              ))}
+                <li >
+                  <Link href={`/cancellation-policy`} className="text-sm hover:text-white transition-colors">
+                    Cancellation and Refund Policy
+                  </Link>
+                </li>
+                <li >
+                  <Link href={`/contact`} className="text-sm hover:text-white transition-colors">
+                    Contact
+                  </Link>
+                </li>
             </ul>
           </div>
           <div>
