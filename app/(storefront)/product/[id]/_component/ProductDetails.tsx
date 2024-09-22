@@ -48,7 +48,7 @@ export function ProductDetails({
       if (result.error) {
         toast.error(result.error)
         if (result.error === "User not authenticated") {
-          router.push('/login') // Redirect to login page if user is not authenticated
+          router.push('/api/auth/login?') // Redirect to login page if user is not authenticated
         }
       } else if (result.success) {
         toast.success("Product added to cart")
