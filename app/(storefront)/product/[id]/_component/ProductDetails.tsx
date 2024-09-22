@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
+import { toast } from "react-hot-toast"
 
 interface Option {
   value: string
@@ -19,7 +20,7 @@ interface ProductDetailsProps {
   basePrice: number
   colorOptions: Option[]
   sizeOptions: Option[]
-  addProductToShoppingCart: (formData: FormData) => Promise<void>
+  addProductToShoppingCart: (formData: FormData) => Promise<{ success?: boolean; error?: string }>
 }
 
 export function ProductDetails({
@@ -40,10 +41,27 @@ export function ProductDetails({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setIsAddingToCart(true)
-    const formData = new FormData(event.currentTarget)
-    await addProductToShoppingCart(formData)
-    setIsAddingToCart(false)
-    router.push('/bag')
+    try {
+      const formData = new FormData(event.currentTarget)
+      const result = await addProductToShoppingCart(formData)
+      
+      if (result.error) {
+        toast.error(result.error)
+        if (result.error === "User not authenticated") {
+          router.push('/login') // Redirect to login page if user is not authenticated
+        }
+      } else if (result.success) {
+        toast.success("Product added to cart")
+        router.push('/bag')
+      } else {
+        toast.error("An unexpected error occurred")
+      }
+    } catch (error) {
+      console.error("Error adding product to cart:", error)
+      toast.error("An unexpected error occurred. Please try again.")
+    } finally {
+      setIsAddingToCart(false)
+    }
   }
 
   return (

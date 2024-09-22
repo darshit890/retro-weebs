@@ -1,5 +1,3 @@
-// File: app/(storefront)/product/[id]/page.tsx
-
 import { notFound } from "next/navigation";
 import { unstable_noStore as noStore } from "next/cache";
 import prisma from "@/lib/db";
@@ -89,7 +87,7 @@ export default async function ProductIdRoute({
           addProductToShoppingCart={addProducttoShoppingCart}
         />
       </div>
-
+      
       <div className="mt-16 max-w-7xl mx-auto md:px-6 px-4 lg:px-8">
         <FeaturedProducts />
       </div>

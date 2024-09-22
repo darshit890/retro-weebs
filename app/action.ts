@@ -191,109 +191,115 @@ export async function deleteBanner(formData: FormData) {
 }
 
 export async function addItem(productId: string, formData: FormData) {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+  try {
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
 
-  if (!user) {
-    return redirect("/");
-  }
+    if (!user) {
+      return { error: "User not authenticated" };
+    }
 
-  let cart: Cart | null = await redis.get(`cart-${user.id}`);
+    let cart: Cart | null = await redis.get(`cart-${user.id}`);
 
-  const selectedProduct = await prisma.product.findUnique({
-    select: {
-      id: true,
-      name: true,
-      price: true,
-      images: true,
-      color1: true,
-      color2: true,
-      color3: true,
-      color4: true,
-      color5: true,
-      size1: true,
-      size2: true,
-      size3: true,
-      size4: true,
-      size5: true,
-      colorVal1: true,
-      colorVal2: true,
-      colorVal3: true,
-      colorVal4: true,
-      colorVal5: true,
-      sizeVal1: true,
-      sizeVal2: true,
-      sizeVal3: true,
-      sizeVal4: true,
-      sizeVal5: true,
-    },
-    where: {
-      id: productId,
-    },
-  });
+    const selectedProduct = await prisma.product.findUnique({
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        images: true,
+        color1: true,
+        color2: true,
+        color3: true,
+        color4: true,
+        color5: true,
+        size1: true,
+        size2: true,
+        size3: true,
+        size4: true,
+        size5: true,
+        colorVal1: true,
+        colorVal2: true,
+        colorVal3: true,
+        colorVal4: true,
+        colorVal5: true,
+        sizeVal1: true,
+        sizeVal2: true,
+        sizeVal3: true,
+        sizeVal4: true,
+        sizeVal5: true,
+      },
+      where: {
+        id: productId,
+      },
+    });
 
-  if (!selectedProduct) {
-    throw new Error("No product with this id");
-  }
+    if (!selectedProduct) {
+      return { error: "Product not found" };
+    }
 
-  const colorValue = formData.get("color") as string;
-  const sizeValue = formData.get("size") as string;
+    const colorValue = formData.get("color") as string;
+    const sizeValue = formData.get("size") as string;
 
-  const colorIndex = parseInt(colorValue.slice(-1));
-  const sizeIndex = parseInt(sizeValue.slice(-1));
+    const colorIndex = parseInt(colorValue.slice(-1));
+    const sizeIndex = parseInt(sizeValue.slice(-1));
 
-  const colorName = selectedProduct[`color${colorIndex}` as keyof typeof selectedProduct] as string || 'Default';
-  const sizeName = selectedProduct[`size${sizeIndex}` as keyof typeof selectedProduct] as string || 'Default';
+    const colorName = selectedProduct[`color${colorIndex}` as keyof typeof selectedProduct] as string || 'Default';
+    const sizeName = selectedProduct[`size${sizeIndex}` as keyof typeof selectedProduct] as string || 'Default';
 
-  const colorPrice = selectedProduct[`colorVal${colorIndex}` as keyof typeof selectedProduct] as number || 0;
-  const sizePrice = selectedProduct[`sizeVal${sizeIndex}` as keyof typeof selectedProduct] as number || 0;
+    const colorPrice = selectedProduct[`colorVal${colorIndex}` as keyof typeof selectedProduct] as number || 0;
+    const sizePrice = selectedProduct[`sizeVal${sizeIndex}` as keyof typeof selectedProduct] as number || 0;
 
-  const totalPrice = selectedProduct.price + colorPrice + sizePrice;
+    const totalPrice = selectedProduct.price + colorPrice + sizePrice;
 
-  let myCart = {} as Cart;
+    let myCart = {} as Cart;
 
-  if (!cart || !cart.items) {
-    myCart = {
-      userId: user.id,
-      items: [
-        {
-          price: totalPrice,
+    if (!cart || !cart.items) {
+      myCart = {
+        userId: user.id,
+        items: [
+          {
+            price: totalPrice,
+            id: selectedProduct.id,
+            imageString: selectedProduct.images[0],
+            name: selectedProduct.name,
+            quantity: 1,
+            color: colorName,
+            size: sizeName,
+          },
+        ],
+      };
+    } else {
+      let itemFound = false;
+
+      myCart.items = cart.items.map((item) => {
+        if (item.id === productId && item.color === colorName && item.size === sizeName) {
+          itemFound = true;
+          item.quantity += 1;
+        }
+        return item;
+      });
+
+      if (!itemFound) {
+        myCart.items.push({
           id: selectedProduct.id,
           imageString: selectedProduct.images[0],
           name: selectedProduct.name,
+          price: totalPrice,
           quantity: 1,
           color: colorName,
           size: sizeName,
-        },
-      ],
-    };
-  } else {
-    let itemFound = false;
-
-    myCart.items = cart.items.map((item) => {
-      if (item.id === productId && item.color === colorName && item.size === sizeName) {
-        itemFound = true;
-        item.quantity += 1;
+        });
       }
-      return item;
-    });
-
-    if (!itemFound) {
-      myCart.items.push({
-        id: selectedProduct.id,
-        imageString: selectedProduct.images[0],
-        name: selectedProduct.name,
-        price: totalPrice,
-        quantity: 1,
-        color: colorName,
-        size: sizeName,
-      });
     }
+
+    await redis.set(`cart-${user.id}`, myCart);
+
+    revalidatePath("/", "layout");
+    return { success: true };
+  } catch (error) {
+    console.error("Error in addItem:", error);
+    return { error: "An unexpected error occurred" };
   }
-
-  await redis.set(`cart-${user.id}`, myCart);
-
-  revalidatePath("/", "layout");
 }
 
 export async function delItem(formData: FormData) {
