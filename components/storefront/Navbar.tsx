@@ -22,7 +22,7 @@ export async function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full bg-background border-b py-2">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-full">
+        <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0">
               <Image src="/logo.png" alt="Logo" width={130} height={130} />
@@ -32,12 +32,12 @@ export async function Navbar() {
             </div>
           </div>
 
-          <div className="hidden md:flex items-center space-x-4 ">
+          <div className="hidden md:flex items-center space-x-4">
             {user ? (
               <>
                 <Link
                   href="/bag"
-                  className="group flex items-center text-foreground hover:text-foreground/80 mt-20"
+                  className="group flex items-center text-foreground hover:text-foreground/80"
                 >
                   <ShoppingBag className="h-6 w-6" />
                   {total > 0 && (
