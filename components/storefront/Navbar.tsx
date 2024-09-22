@@ -99,9 +99,6 @@ export async function Navbar() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem asChild>
-                      <Link href="/profile">Profile</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
                       <Link href="/api/auth/logout">Sign out</Link>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
