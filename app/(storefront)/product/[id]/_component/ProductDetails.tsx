@@ -1,11 +1,11 @@
 'use client'
-
 import { useState } from "react"
 import { StarIcon, ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
+import { useRouter } from "next/navigation"
 
 interface Option {
   value: string
@@ -19,7 +19,7 @@ interface ProductDetailsProps {
   basePrice: number
   colorOptions: Option[]
   sizeOptions: Option[]
-  addProductToShoppingCart: (formData: FormData) => void
+  addProductToShoppingCart: (formData: FormData) => Promise<void>
 }
 
 export function ProductDetails({
@@ -32,8 +32,19 @@ export function ProductDetails({
 }: ProductDetailsProps) {
   const [selectedColor, setSelectedColor] = useState<Option>(colorOptions[0])
   const [selectedSize, setSelectedSize] = useState<Option>(sizeOptions[0])
+  const [isAddingToCart, setIsAddingToCart] = useState(false)
+  const router = useRouter()
 
   const totalPrice = basePrice + selectedColor.price + selectedSize.price
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setIsAddingToCart(true)
+    const formData = new FormData(event.currentTarget)
+    await addProductToShoppingCart(formData)
+    setIsAddingToCart(false)
+    router.push('/bag')
+  }
 
   return (
     <Card className="w-full max-w-3xl mx-auto">
@@ -93,11 +104,12 @@ export function ProductDetails({
           </div>
         </div>
         <p className="text-base text-gray-700 mb-6">{description}</p>
-        <form action={addProductToShoppingCart}>
+        <form onSubmit={handleSubmit}>
           <input type="hidden" name="color" value={selectedColor.value} />
           <input type="hidden" name="size" value={selectedSize.value} />
-          <Button type="submit" className="w-full">
-            <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+          <Button type="submit" className="w-full" disabled={isAddingToCart}>
+            <ShoppingCart className="mr-2 h-4 w-4" /> 
+            {isAddingToCart ? 'Adding to Cart...' : 'Add to Cart'}
           </Button>
         </form>
       </CardContent>

@@ -45,7 +45,7 @@ export function NavbarLinks() {
   const pathname = usePathname();
 
   return (
-    <div className="flex md:items-center space-x-1 flex-col gap-y-2  md:flex-row">
+    <div className="flex md:items-center  flex-col gap-y-2 gap-x-2  md:flex-row">
       {navbarLinks.map((item) => (
         <div key={item.id}>
           {item.subItems ? (

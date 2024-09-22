@@ -14,7 +14,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { unstable_noStore as noStore } from "next/cache";
 
 async function getData() {
   const data = await prisma.order.findMany({
@@ -30,6 +29,14 @@ async function getData() {
           profileImage: true,
         },
       },
+      items: {
+        select: {
+          quantity: true,
+          color: true,
+          size: true,
+        },
+      },
+      address: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -40,10 +47,9 @@ async function getData() {
 }
 
 export default async function OrdersPage() {
-  noStore();
   const data = await getData();
   return (
-    <Card>
+    <Card >
       <CardHeader className="px-7">
         <CardTitle>Orders</CardTitle>
         <CardDescription>Recent orders from your store!</CardDescription>
@@ -56,6 +62,10 @@ export default async function OrdersPage() {
               <TableHead>Type</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Date</TableHead>
+              <TableHead>Quantity</TableHead>
+              <TableHead>Color</TableHead>
+              <TableHead>Size</TableHead>
+              <TableHead>Address</TableHead>
               <TableHead className="text-right">Amount</TableHead>
             </TableRow>
           </TableHeader>
@@ -73,8 +83,14 @@ export default async function OrdersPage() {
                 <TableCell>
                   {new Intl.DateTimeFormat("en-US").format(item.createdAt)}
                 </TableCell>
+                <TableCell>{item.items.reduce((sum, i) => sum + i.quantity, 0)}</TableCell>
+                <TableCell>{item.items.map(i => i.color).join(", ")}</TableCell>
+                <TableCell>{item.items.map(i => i.size).join(", ")}</TableCell>
+                <TableCell>
+                  {item.address ? `${item.address.street}, ${item.address.city}, ${item.address.state}, ${item.address.postalCode}, ${item.address.country}` : 'N/A'}
+                </TableCell>
                 <TableCell className="text-right">
-                  ${new Intl.NumberFormat("en-US").format(item.amount / 100)}
+                  ₹{new Intl.NumberFormat("en-IN").format(item.amount / 100)}
                 </TableCell>
               </TableRow>
             ))}

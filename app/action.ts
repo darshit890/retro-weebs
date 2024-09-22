@@ -10,6 +10,8 @@ import { Cart } from "@/lib/interface";
 import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";
 import { adminUsers } from "./constants";
+import { razorpay } from "@/lib/razorpay";
+import { Address } from "@prisma/client";
 
 export async function createProduct(prevState: unknown, formData: FormData) {
   const { getUser } = getKindeServerSession();
@@ -318,7 +320,7 @@ export async function delItem(formData: FormData) {
   revalidatePath("/bag");
 }
 
-export async function CheckOut() {
+export async function CheckOut(address: Address, totalAmount: number, userId: string) {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
@@ -329,29 +331,52 @@ export async function CheckOut() {
   let cart: Cart | null = await redis.get(`cart-${user.id}`);
 
   if (cart && cart.items) {
-    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
-      cart.items.map((item) => ({
-        price_data: {
-          currency: "usd",
-          unit_amount: item.price * 100,
-          product_data: {
-            name: item.name,
-            images: [item.imageString],
-          },
-        },
-        quantity: item.quantity,
-      }));
-
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
-      line_items: lineItems,
-      success_url: "https://www.retroweebs.com/payment/success",
-      cancel_url: "https://www.retroweebs.com/payment/cancel",
-      metadata: {
+    const order = await prisma.order.create({
+      data: {
+        amount: totalAmount * 100, // Razorpay expects amount in paise
+        status: "created",
         userId: user.id,
+        items: {
+          create: cart.items.map(item => ({
+            productId: item.id,
+            quantity: item.quantity,
+            color: item.color,
+            size: item.size,
+            price: item.price
+          }))
+        },
+        address: {
+          create: {
+            street: address.street,
+            city: address.city,
+            state: address.state,
+            postalCode: address.postalCode,
+            country: address.country,
+          }
+        }
       },
     });
 
-    return redirect(session.url as string);
+    const options = {
+      amount: totalAmount * 100,
+      currency: "INR",
+      receipt: order.id,
+      notes: {
+        userId: user.id,
+      }
+    };
+
+    const razorpayOrder = await razorpay.orders.create(options);
+
+    await prisma.order.update({
+      where: { id: order.id },
+      data: { razorpayOrderId: razorpayOrder.id },
+    });
+
+    return {
+      orderId: razorpayOrder.id,
+      amount: razorpayOrder.amount,
+      currency: razorpayOrder.currency,
+    };
   }
 }

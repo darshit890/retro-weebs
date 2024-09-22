@@ -7,8 +7,9 @@ import { unstable_noStore as noStore } from "next/cache";
 import { redirect } from "next/navigation";
 import { redis } from "@/lib/redis";
 import { Cart } from "@/lib/interface";
-import {  ChceckoutButton, DeleteItem } from "@/components/SubmitButtons";
-import { CheckOut, delItem } from "@/app/action";
+import { DeleteItem } from "@/components/SubmitButtons";
+import { delItem } from "@/app/action";
+import { AddressForm } from "@/components/storefront/AddressForm";
 
 export default async function BagRoute() {
   noStore();
@@ -29,7 +30,7 @@ export default async function BagRoute() {
 
   return (
     <div className="max-w-2xl mx-auto mt-10 min-h-[55vh]">
-      {!cart || !cart.items ? (
+      {!cart || !cart.items || cart.items.length === 0 ? (
         <div className="flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center mt-20">
           <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
             <ShoppingBag className="w-10 h-10 text-primary" />
@@ -49,7 +50,7 @@ export default async function BagRoute() {
         </div>
       ) : (
         <div className="flex flex-col gap-y-10">
-          {cart?.items.map((item) => (
+          {cart.items.map((item) => (
             <div key={`${item.id}-${item.color}-${item.size}`} className="flex">
               <div className="w-24 h-24 sm:w-32 sm:h-32 relative">
                 <Image
@@ -71,7 +72,7 @@ export default async function BagRoute() {
                 <div className="flex justify-between items-end">
                   <div className="flex items-center gap-x-2">
                     <p>{item.quantity} x</p>
-                    <p className="font-bold">${item.price.toFixed(2)}</p>
+                    <p className="font-bold">₹{item.price.toFixed(2)}</p>
                   </div>
                   <form action={delItem} className="text-end">
                     <input type="hidden" name="productId" value={item.id} />
@@ -86,12 +87,10 @@ export default async function BagRoute() {
           <div className="mt-10">
             <div className="flex items-center justify-between font-medium">
               <p className="text-lg">Subtotal:</p>
-              <p className="text-xl font-bold">${totalPrice.toFixed(2)}</p>
+              <p className="text-xl font-bold">₹{totalPrice.toFixed(2)}</p>
             </div>
             
-            <form action={CheckOut} className="mt-6">
-              <ChceckoutButton />
-            </form>
+            <AddressForm totalAmount={totalPrice} userId={user.id} />
           </div>
         </div>
       )}

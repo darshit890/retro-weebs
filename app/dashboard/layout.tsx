@@ -30,9 +30,9 @@ export default async function DashboardLayout({
     return redirect("/");
   }
   return (
-    <div className="flex w-full flex-col max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <header className="sticky top-0 flex h-16 items-center justify-between gap-4 border-b bg-white">
-        <nav className="hidden font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+    <div className="flex w-full flex-col max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+      <header className="sticky top-0 flex h-16 items-center justify-between gap-4 border-b z-50 bg-white">
+        <nav className="hidden font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6 ">
           <DashboardNavigation />
         </nav>
 
@@ -68,7 +68,8 @@ export default async function DashboardLayout({
           </DropdownMenuContent>
         </DropdownMenu>
       </header>
-      <main className="my-5">{children}</main>
+      <main className="my-5 ">{children}</main>
+      
     </div>
   );
 }

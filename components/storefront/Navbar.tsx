@@ -13,6 +13,7 @@ import { Cart } from "@/lib/interface";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 
 export async function Navbar() {
   const { getUser } = getKindeServerSession();
@@ -23,14 +24,12 @@ export async function Navbar() {
   const total = cart?.items.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 ">
+    <nav className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 py-2">
       <div className="px-4 sm:px-6 lg:px-8 mx-auto md:px-6 max-w-7xl">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0">
-              <h1 className="text-black font-bold text-xl lg:text-2xl">
-                Retro<span className="text-primary">Weebs</span>
-              </h1>
+              <Image src={"/logo.png"} alt="logo" width={130} height={130} />
             </Link>
             <div className="hidden md:block ml-10">
               <NavbarLinks />
@@ -40,7 +39,10 @@ export async function Navbar() {
           <div className="hidden md:flex items-center space-x-4">
             {user ? (
               <>
-                <Link href="/bag" className="group flex items-center text-gray-700 hover:text-gray-900">
+                <Link
+                  href="/bag"
+                  className="group flex items-center text-gray-700 hover:text-gray-900"
+                >
                   <ShoppingBagIcon className="h-6 w-6" />
                   {total > 0 && (
                     <span className="ml-1 text-sm font-medium bg-primary text-primary-foreground rounded-full px-2 py-1">
@@ -52,7 +54,8 @@ export async function Navbar() {
                   email={user.email as string}
                   name={user.given_name as string}
                   userImage={
-                    user.picture ?? `https://avatar.vercel.sh/${user.given_name}`
+                    user.picture ??
+                    `https://avatar.vercel.sh/${user.given_name}`
                   }
                 />
               </>
@@ -82,8 +85,15 @@ export async function Navbar() {
                     {user ? (
                       <div className="flex items-center space-x-3">
                         <Avatar>
-                          <AvatarImage src={user.picture ?? `https://avatar.vercel.sh/${user.given_name}`} />
-                          <AvatarFallback>{user.given_name?.charAt(0)}</AvatarFallback>
+                          <AvatarImage
+                            src={
+                              user.picture ??
+                              `https://avatar.vercel.sh/${user.given_name}`
+                            }
+                          />
+                          <AvatarFallback>
+                            {user.given_name?.charAt(0)}
+                          </AvatarFallback>
                         </Avatar>
                         <div>
                           <p className="font-medium">{user.given_name}</p>
@@ -106,9 +116,14 @@ export async function Navbar() {
                     <div className="p-4 space-y-4">
                       <NavbarLinks />
                       {user && (
-                        <Link href="/bag" className="flex items-center text-gray-700 hover:text-gray-900">
+                        <Link
+                          href="/bag"
+                          className="flex items-center text-gray-700 hover:text-gray-900"
+                        >
                           <ShoppingBagIcon className="h-5 w-5 mr-2" />
-                          <span className="text-sm font-medium">Bag ({total})</span>
+                          <span className="text-sm font-medium">
+                            Bag ({total})
+                          </span>
                         </Link>
                       )}
                     </div>
