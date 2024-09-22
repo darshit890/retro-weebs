@@ -1,15 +1,15 @@
-"use client";
+"use client"
 
-import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { ChevronDown } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu"
 
 export const navbarLinks = [
   {
@@ -38,19 +38,18 @@ export const navbarLinks = [
       { name: "Oversized Tees", href: "/category/oversized" },
     ],
   },
-  
-];
+]
 
 export function NavbarLinks() {
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   return (
-    <div className="flex md:items-center  flex-col gap-y-2 gap-x-2  md:flex-row">
+    <div className="flex flex-col md:flex-row md:items-center gap-2">
       {navbarLinks.map((item) => (
         <div key={item.id}>
           {item.subItems ? (
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100 hover:text-gray-900">
+              <DropdownMenuTrigger className="flex items-center px-3 py-2 text-sm font-medium text-foreground rounded-md hover:bg-accent hover:text-accent-foreground">
                 {item.name}
                 <ChevronDown className="w-4 h-4 ml-1" />
               </DropdownMenuTrigger>
@@ -63,7 +62,7 @@ export function NavbarLinks() {
                         "w-full text-sm",
                         pathname === subItem.href
                           ? "font-medium text-primary"
-                          : "text-gray-700 hover:text-gray-900"
+                          : "text-foreground hover:text-foreground/80"
                       )}
                     >
                       {subItem.name}
@@ -79,7 +78,7 @@ export function NavbarLinks() {
                 "px-3 py-2 text-sm font-medium rounded-md",
                 pathname === item.href
                   ? "bg-primary text-primary-foreground"
-                  : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  : "text-foreground hover:bg-accent hover:text-accent-foreground"
               )}
             >
               {item.name}
@@ -88,5 +87,5 @@ export function NavbarLinks() {
         </div>
       ))}
     </div>
-  );
+  )
 }
