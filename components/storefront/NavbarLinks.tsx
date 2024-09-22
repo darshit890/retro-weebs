@@ -13,11 +13,6 @@ import {
 
 export const navbarLinks = [
   {
-    id: 0,
-    name: "Home",
-    href: "/",
-  },
-  {
     id: 1,
     name: "Products",
     href: "/products",
@@ -44,7 +39,7 @@ export function NavbarLinks() {
   const pathname = usePathname()
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center gap-2">
+    <div className="flex flex-col md:flex-row md:items-center gap-2 gap-y-4">
       {navbarLinks.map((item) => (
         <div key={item.id}>
           {item.subItems ? (
