@@ -11,6 +11,12 @@ import { Cart } from "@/lib/interface"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export async function Navbar() {
   const { getUser } = getKindeServerSession()
@@ -65,7 +71,50 @@ export async function Navbar() {
             )}
           </div>
 
-          <div className="flex md:hidden">
+          <div className="flex md:hidden items-center space-x-2">
+            {user ? (
+              <>
+                <Link href="/bag" className="mr-2">
+                  <Button variant="ghost" size="icon" className="relative">
+                    <ShoppingBag className="h-5 w-5" />
+                    {total > 0 && (
+                      <span className="absolute top-0 right-0 -mt-1 -mr-1 text-xs bg-primary text-primary-foreground rounded-full px-1">
+                        {total}
+                      </span>
+                    )}
+                    <span className="sr-only">Shopping bag</span>
+                  </Button>
+                </Link>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage
+                          src={user.picture ?? `https://avatar.vercel.sh/${user.given_name}`}
+                          alt={user.given_name || "User avatar"}
+                        />
+                        <AvatarFallback>{user.given_name?.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem asChild>
+                      <Link href="/profile">Profile</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/api/auth/logout">Sign out</Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : (
+              <Button variant="ghost" size="icon" asChild>
+                <LoginLink>
+                  <User className="h-5 w-5" />
+                  <span className="sr-only">Sign in</span>
+                </LoginLink>
+              </Button>
+            )}
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="text-foreground">
@@ -105,15 +154,6 @@ export async function Navbar() {
                   <nav className="flex-1 overflow-y-auto">
                     <div className="p-4 space-y-4">
                       <NavbarLinks />
-                      {user && (
-                        <Link
-                          href="/bag"
-                          className="flex items-center text-foreground hover:text-foreground/80"
-                        >
-                          <ShoppingBag className="h-5 w-5 mr-2" />
-                          <span className="text-sm font-medium">Bag ({total})</span>
-                        </Link>
-                      )}
                     </div>
                   </nav>
                   <Separator />
