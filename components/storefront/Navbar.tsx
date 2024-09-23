@@ -57,6 +57,7 @@ export async function Navbar() {
                   email={user.email as string}
                   name={user.given_name as string}
                   userImage={user.picture ?? `https://avatar.vercel.sh/${user.given_name}`}
+                  family={user.family_name as string}
                 />
               </>
             ) : (
@@ -93,11 +94,14 @@ export async function Navbar() {
                           src={user.picture ?? `https://avatar.vercel.sh/${user.given_name}`}
                           alt={user.given_name || "User avatar"}
                         />
-                        <AvatarFallback>{user.given_name?.charAt(0)}</AvatarFallback>
+                        <AvatarFallback>{user.given_name?.charAt(0)}{user.family_name?.charAt(0)}</AvatarFallback>
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
+                    <DropdownMenuItem asChild>
+                      <Link href="/api/auth/logout">Order history</Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/api/auth/logout">Sign out</Link>
                     </DropdownMenuItem>
@@ -129,7 +133,7 @@ export async function Navbar() {
                             src={user.picture ?? `https://avatar.vercel.sh/${user.given_name}`}
                             alt={user.given_name || "User avatar"}
                           />
-                          <AvatarFallback>{user.given_name?.charAt(0)}</AvatarFallback>
+                          <AvatarFallback>{user.given_name?.charAt(0)}{user.family_name?.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
                           <p className="font-medium">{user.given_name}</p>

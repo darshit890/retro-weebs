@@ -9,21 +9,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import Link from "next/link";
 
 interface iAppProps {
   email: string;
   name: string;
   userImage: string;
+  family: string;
 }
 
-export function UserDropdown({ email, name, userImage }: iAppProps) {
+export function UserDropdown({ email, name, userImage, family }: iAppProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
             <AvatarImage src={userImage} alt="User Image" />
-            <AvatarFallback>{name.slice(0, 3)}</AvatarFallback>
+            <AvatarFallback>{name.charAt(0)}{family.charAt(0)}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -35,6 +37,9 @@ export function UserDropdown({ email, name, userImage }: iAppProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <LogoutLink>Log out</LogoutLink>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={"/order-history"}>Order History</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
