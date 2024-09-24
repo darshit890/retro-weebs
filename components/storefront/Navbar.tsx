@@ -100,7 +100,7 @@ export async function Navbar() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem asChild>
-                      <Link href="/api/auth/logout">Order history</Link>
+                      <Link href="/order-history">Order history</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/api/auth/logout">Sign out</Link>
@@ -160,9 +160,14 @@ export async function Navbar() {
                   <Separator />
                   <div className="p-4">
                     {user ? (
+                      <>
                       <Button variant="outline" className="w-full" asChild>
                         <Link href="/api/auth/logout">Sign out</Link>
                       </Button>
+                      <Button variant="outline" className="w-full" asChild>
+                        <Link href="/order-hisory">Order History</Link>
+                      </Button>
+                      </>
                     ) : (
                       <div className="space-y-2">
                         <Button variant="outline" className="w-full" asChild>

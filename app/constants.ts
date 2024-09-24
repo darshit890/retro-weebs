@@ -4,4 +4,5 @@ export const adminUsers = [
     "contact@retroweebs.com",
     "adhyayan1999@outlook.com",
     "1941012688.f.harshkumar@gmail.com",
+    "007adhyayan@gmail.com"
 ]
