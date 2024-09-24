@@ -49,7 +49,7 @@ async function getData() {
 export default async function OrdersPage() {
   const data = await getData();
   return (
-    <Card >
+    <Card>
       <CardHeader className="px-7">
         <CardTitle>Orders</CardTitle>
         <CardDescription>Recent orders from your store!</CardDescription>
@@ -79,7 +79,7 @@ export default async function OrdersPage() {
                   </p>
                 </TableCell>
                 <TableCell>Order</TableCell>
-                <TableCell>{item.status}</TableCell>
+                <TableCell>{item.status === 'created' ? 'Failed' : item.status}</TableCell>
                 <TableCell>
                   {new Intl.DateTimeFormat("en-US").format(item.createdAt)}
                 </TableCell>

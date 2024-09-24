@@ -58,7 +58,7 @@ model Banner {
 
 model Order {
   id                String     @id @default(uuid())
-  status            String     @default("created")
+  status            String     
   amount            Int
   razorpayOrderId   String?    @unique
   razorpayPaymentId String?
