@@ -22,48 +22,54 @@ export function CategoriesSelection() {
 
       <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8">
         <div className="group aspect-w-2 aspect-h-1 rounded-xl overflow-hidden sm:aspect-w-1 sm:row-span-2">
-          <Image
-            src={all}
-            alt="All Products Image"
-            className="object-cover object-center "
-          />
-          <div className="bg-gradient-to-b from-transparent to-black opacity-55" />
-          <div className="p-6 flex items-end">
-            <Link href="/products/all">
-              <h3 className="text-white font-semibold">All Products</h3>
-              <p className="mt-1 text-sm text-white">Shop Now</p>
-            </Link>
-          </div>
+          <Link href={"/category/oversized"} className="block w-full h-full">
+            <div className="relative w-full h-full">
+              <Image
+                src={all}
+                alt={""}
+                layout="fill"
+                objectFit="cover"
+                className="object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-55" />
+              <div className="absolute inset-0 p-6 flex items-end">
+                <div>
+                  <h3 className="text-white font-semibold">Oversized Tees</h3>
+                  <p className="mt-1 text-sm text-white">Shop Now</p>
+                </div>
+              </div>
+            </div>
+          </Link>
         </div>
 
         <div className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:relative sm:aspect-none sm:h-full">
-          <Image
-            src={men}
-            alt="Products for men Image"
-            className="object-bottom object-cover sm:absolute sm:inset-0 sm:w-full sm:h-full"
-          />
-          <div className="bg-gradient-to-b from-transparent to-black opacity-55 sm:absolute sm:inset-0" />
-          <div className="p-6 flex items-end sm:absolute sm:inset-0">
-            <Link href="/category/hoodies">
+          <Link href="/category/hoodies">
+            <Image
+              src={men}
+              alt="Products for men Image"
+              className="object-bottom object-cover sm:absolute sm:inset-0 sm:w-full sm:h-full"
+            />
+            <div className="bg-gradient-to-b from-transparent to-black opacity-55 sm:absolute sm:inset-0" />
+            <div className="p-6 flex items-end sm:absolute sm:inset-0">
               <h3 className="text-white font-semibold">Hoodies</h3>
-              <p className="mt-1 text-sm text-white">Shop Now</p>
-            </Link>
-          </div>
+              <p className="mt-1 text-sm text-white ml-2">Shop Now</p>
+            </div>
+          </Link>
         </div>
 
         <div className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:relative sm:aspect-none sm:h-full">
-          <Image
-            src={women}
-            alt="Women product image"
-            className="object-bottom object-cover sm:absolute sm:inset-0 sm:w-full sm:h-full"
-          />
-          <div className="bg-gradient-to-b from-transparent to-black opacity-55 sm:absolute sm:inset-0" />
-          <div className="p-6 flex items-end sm:absolute sm:inset-0">
-            <Link href="/category/tshirts">
+          <Link href="/category/tshirts">
+            <Image
+              src={women}
+              alt="Women product image"
+              className="object-bottom object-cover sm:absolute sm:inset-0 sm:w-full sm:h-full"
+            />
+            <div className="bg-gradient-to-b from-transparent to-black opacity-55 sm:absolute sm:inset-0" />
+            <div className="p-6 flex items-end sm:absolute sm:inset-0">
               <h3 className="text-white font-semibold">T-shirts</h3>
-              <p className="mt-1 text-sm text-white">Shop Now</p>
-            </Link>
-          </div>
+              <p className="mt-1 text-sm text-white ml-2">Shop Now</p>
+            </div>
+          </Link>
         </div>
       </div>
     </div>

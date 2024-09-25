@@ -1,7 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
-import { ShoppingBag, Menu, User } from "lucide-react"
+import { ShoppingBag, Menu, User, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components"
 import { NavbarLinks } from "./NavbarLinks"
@@ -17,6 +17,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import SearchBar from "./SearchBar"
 
 export async function Navbar() {
   const { getUser } = getKindeServerSession()
@@ -31,11 +32,15 @@ export async function Navbar() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0">
-              <Image src="/logo.png" alt="Logo" width={130} height={130} />
+              <Image src="/logo.png" alt="Logo" width={130} height={130} className="rounded-xl" />
             </Link>
-            <div className="hidden md:block ml-10">
+            <div className="hidden md:flex md:items-center md:space-x-4 ml-10">
               <NavbarLinks />
             </div>
+          </div>
+
+          <div className="flex-1 px-4 md:px-8 md:block hidden max-w-md mx-auto">
+            <SearchBar />
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
@@ -73,6 +78,19 @@ export async function Navbar() {
           </div>
 
           <div className="flex md:hidden items-center space-x-2">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-foreground">
+                  <Search className="h-6 w-6" />
+                  <span className="sr-only">Open search</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="top" className="w-full p-0">
+                <div className="p-4">
+                  <SearchBar />
+                </div>
+              </SheetContent>
+            </Sheet>
             {user ? (
               <>
                 <Link href="/bag" className="mr-2">
@@ -161,11 +179,11 @@ export async function Navbar() {
                   <div className="p-4">
                     {user ? (
                       <>
-                      <Button variant="outline" className="w-full" asChild>
-                        <Link href="/api/auth/logout">Sign out</Link>
+                      <Button variant="outline" className="w-full mb-2" asChild>
+                        <Link href="/order-history">Order History</Link>
                       </Button>
                       <Button variant="outline" className="w-full" asChild>
-                        <Link href="/order-hisory">Order History</Link>
+                        <Link href="/api/auth/logout">Sign out</Link>
                       </Button>
                       </>
                     ) : (

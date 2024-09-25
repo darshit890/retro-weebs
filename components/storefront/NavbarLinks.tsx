@@ -13,14 +13,6 @@ import {
 
 export const navbarLinks = [
   {
-    id: 1,
-    name: "Products",
-    href: "/products",
-    subItems: [
-      { name: "All Products", href: "/products/all" },
-    ],
-  },
-  {
     id: 2,
     name: "Categories",
     href: "/categories",
