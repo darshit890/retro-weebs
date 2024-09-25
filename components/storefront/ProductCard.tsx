@@ -17,6 +17,7 @@ interface ProductCardProps {
 
 export function ProductCard({ item }: ProductCardProps) {
   return (
+    <Link href={`/product/${item.id}`}>
     <div className="rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
       <Carousel className="w-full mx-auto">
         <CarouselContent>
@@ -47,12 +48,9 @@ export function ProductCard({ item }: ProductCardProps) {
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">
           {item.description}
         </p>
-
-        <Button asChild className="w-full">
-          <Link href={`/product/${item.id}`}>View Details</Link>
-        </Button>
       </div>
     </div>
+    </Link>
   );
 }
 

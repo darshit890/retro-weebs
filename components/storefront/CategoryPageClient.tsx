@@ -184,7 +184,7 @@ function FilterSection<T extends React.ReactNode>({ title, items, selectedItems,
               onCheckedChange={() => onChange(item)}
               className="mr-2"
             />
-            <label htmlFor={`${title}-${item}`} className="text-sm text-gray-600 cursor-pointer">
+            <label htmlFor={`${title}-${item}`} className="text-sm text-gray-600 cursor-pointer capitalize">
               {item}
             </label>
           </div>
