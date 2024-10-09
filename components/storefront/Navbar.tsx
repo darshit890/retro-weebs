@@ -11,7 +11,7 @@ import { NavbarLinks } from "./NavbarLinks";
 import { UserDropdown } from "./UserDropdown";
 import { redis } from "@/lib/redis";
 import { Cart } from "@/lib/interface";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -135,7 +135,7 @@ export async function Navbar() {
             </div>
           </div>
 
-          <div className="flex-1  md:block hidden max-w-md mx-auto">
+          <div className="flex-1  ml-2 max-w-md mx-auto">
             <Link href="/" className="flex-shrink-0">
               <Image
                 src="/RETROWEEBS.png"
@@ -192,10 +192,15 @@ export async function Navbar() {
                   <span className="sr-only">Open search</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="top" className="w-full p-0">
-                <div className="p-4">
+              <SheetContent side="top" className="w-full p-0 flex-row flex justify-between pr-5">
+                <div className="p-4 flex-1">
                   <SearchBar />
                 </div>
+              <SheetClose>
+                <Button variant={"outline"} size={"sm"} className="flex">
+                  Close
+                </Button>
+              </SheetClose>
               </SheetContent>
             </Sheet>
             {user ? (
@@ -247,92 +252,6 @@ export async function Navbar() {
                 </LoginLink>
               </Button>
             )}
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-foreground">
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0">
-                <div className="flex flex-col h-full">
-                  <div className="p-4 bg-muted">
-                    {user ? (
-                      <div className="flex items-center space-x-3">
-                        <Avatar>
-                          <AvatarImage
-                            src={
-                              user.picture ??
-                              `https://avatar.vercel.sh/${user.given_name}`
-                            }
-                            alt={user.given_name || "User avatar"}
-                          />
-                          <AvatarFallback>
-                            {user.given_name?.charAt(0)}
-                            {user.family_name?.charAt(0)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <p className="font-medium">{user.given_name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {user.email}
-                          </p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="flex items-center space-x-3">
-                        <Avatar>
-                          <AvatarFallback>
-                            <User className="h-5 w-5" />
-                          </AvatarFallback>
-                        </Avatar>
-                        <p className="font-medium">Guest</p>
-                      </div>
-                    )}
-                  </div>
-                  <Separator />
-                  <nav className="flex-1 overflow-y-auto">
-                    <div className="p-4 space-y-4">
-                      {nav.map((item, index) => (
-                        <Link
-                          href={item.href}
-                          key={index}
-                          className="flex flex-col space-y-2"
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </nav>
-                  <Separator />
-                  <div className="p-4">
-                    {user ? (
-                      <>
-                        <Button
-                          variant="outline"
-                          className="w-full mb-2"
-                          asChild
-                        >
-                          <Link href="/order-history">Order History</Link>
-                        </Button>
-                        <Button variant="outline" className="w-full" asChild>
-                          <Link href="/api/auth/logout">Sign out</Link>
-                        </Button>
-                      </>
-                    ) : (
-                      <div className="space-y-2">
-                        <Button variant="outline" className="w-full" asChild>
-                          <LoginLink>Sign in</LoginLink>
-                        </Button>
-                        <Button variant="default" className="w-full" asChild>
-                          <RegisterLink>Create Account</RegisterLink>
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
           </div>
         </div>
       </div>

@@ -1,5 +1,4 @@
 'use client'
-
 import React, { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
@@ -85,9 +84,10 @@ export default function SearchBar({ onClose }: { onClose?: () => void }) {
           <Button
             variant="ghost"
             size="sm"
-            className="absolute right-10 top-1/2 -translate-y-1/2"
+            className="absolute right-10 top-1/2 -translate-y-1/2 md:right-2"
             onClick={() => setQuery('')}
           >
+            <X className="h-4 w-4" />
             <span className="sr-only">Clear search</span>
           </Button>
         )}
@@ -96,14 +96,15 @@ export default function SearchBar({ onClose }: { onClose?: () => void }) {
             variant="ghost"
             size="sm"
             onClick={handleClose}
-            className="absolute right-2 top-1/2 -translate-y-1/2"
+            className="absolute right-2 top-1/2 -translate-y-1/2 md:hidden"
           >
-            Close
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close</span>
           </Button>
         )}
       </div>
       {isLoading && (
-        <div className="absolute right-24 top-1/2 -translate-y-1/2">
+        <div className="absolute right-24 top-1/2 -translate-y-1/2 md:right-16">
           <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900"></div>
         </div>
       )}
