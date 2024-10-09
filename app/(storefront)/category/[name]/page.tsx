@@ -2,9 +2,6 @@ import { notFound } from "next/navigation";
 import { unstable_noStore as noStore } from "next/cache";
 import prisma from "@/lib/db";
 import { ProductCard } from "@/components/storefront/ProductCard";
-import { Category } from "@prisma/client";
-
-// Move categories to a separate file, e.g., @/lib/categories.ts
 import { categories } from "@/lib/categories";
 
 async function getData(productCategory: string) {
@@ -28,7 +25,7 @@ async function getData(productCategory: string) {
   }
   const category = categories.find(cat => cat.name.toLowerCase() === productCategory.toLowerCase());
   if (!category) {
-    return notFound();
+    notFound();
   }
   const data = await prisma.product.findMany({
     select: {
@@ -56,14 +53,19 @@ export default async function CategoriesPage({
 }) {
   noStore();
   const { data, title } = await getData(params.name);
+
   return (
-    <section>
-      <h1 className="font-semibold text-3xl my-5">{title}</h1>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {data.map((item) => (
-          <ProductCard item={item} key={item.id} />
-        ))}
-      </div>
+    <section className="container mx-auto px-4 py-8">
+      <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center md:text-left">{title}</h1>
+      {data.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+          {data.map((item) => (
+            <ProductCard item={item} key={item.id} />
+          ))}
+        </div>
+      ) : (
+        <p className="text-center text-gray-500 my-8">No products found in this category.</p>
+      )}
     </section>
   );
 }

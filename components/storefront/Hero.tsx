@@ -1,4 +1,4 @@
-
+import React from 'react';
 import {
   Carousel,
   CarouselContent,
@@ -6,10 +6,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import prisma from "@/lib/db";
 import Image from "next/image";
 
 async function getData() {
+  const prisma = (await import("@/lib/db")).default;
   const data = await prisma.banner.findMany({
     orderBy: {
       createdAt: "desc",
@@ -22,26 +22,24 @@ export async function Hero() {
   const data = await getData();
 
   return (
-    <Carousel>
+    <Carousel className="w-full">
       <CarouselContent>
         {data.map((item) => (
           <CarouselItem key={item.id}>
-            <div className="relative h-[60vh] lg:h-[80vh]">
+            <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
               <Image
-                alt="Banner Image"
+                alt={`Banner Image ${item.id}`}
                 src={item.imageString}
                 fill
-                className="object-cover w-full h-full rounded-xl"
+                className="object-cover rounded-xl"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
-              <div className="absolute top-6 left-6 bg-opacity-75 bg-black text-white p-6 rounded-xl shadow-lg transition-transform hover:scale-105">
-                <h1 className="text-xl lg:text-4xl font-bold">{item.title}</h1>
-              </div>
             </div>
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="ml-16" />
-      <CarouselNext className="mr-16" />
+      <CarouselPrevious className="left-4" />
+      <CarouselNext className="right-4" />
     </Carousel>
   );
 }

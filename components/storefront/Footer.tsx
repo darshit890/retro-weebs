@@ -1,5 +1,7 @@
 import Link from 'next/link'
-import { Facebook, Instagram, Twitter, X, Youtube } from 'lucide-react'
+import { Facebook, Instagram, Linkedin, Twitter, X, Youtube } from 'lucide-react'
+import { FaThreads } from "react-icons/fa6";
+import { FaPinterestP } from "react-icons/fa";
 
 export function Footer() {
   return (
@@ -64,18 +66,26 @@ export function Footer() {
                 <span className="sr-only">Facebook</span>
                 <Facebook className="h-6 w-6" />
               </a>
-              {/* <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="https://www.instagram.com/retro.pvt.ltd/?next=%2F&hl=en" className="text-gray-400 hover:text-white transition-colors">
                 <span className="sr-only">Instagram</span>
                 <Instagram className="h-6 w-6" />
-              </a> */}
+              </a>
               <a href="https://x.com/RetroWeebs" className="text-gray-400 hover:text-white transition-colors">
                 <span className="sr-only">Twitter</span>
                 <Twitter className="h-6 w-6" />
               </a>
-              {/* <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <span className="sr-only">YouTube</span>
-                <Youtube className="h-6 w-6" />
-              </a> */}
+              <a href="https://www.linkedin.com/company/104784339/admin/dashboard/" className="text-gray-400 hover:text-white transition-colors">
+                <span className="sr-only">Linkedin</span>
+                <Linkedin className="h-6 w-6" />
+              </a>
+              <a href="https://www.threads.net/@retro.pvt.ltd" className="text-gray-400 hover:text-white transition-colors">
+                <span className="sr-only">Threads</span>
+                <FaThreads  className="h-6 w-6" />
+              </a>
+              <a href="https://in.pinterest.com/055a8lmmne2b4cpvpeaz9pgqfkpm5k/" className="text-gray-400 hover:text-white transition-colors">
+                <span className="sr-only">Pinterest</span>
+                <FaPinterestP  className="h-6 w-6" />
+              </a>
             </div>
             
           </div>

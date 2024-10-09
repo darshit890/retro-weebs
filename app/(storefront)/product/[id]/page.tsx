@@ -57,7 +57,6 @@ export default async function ProductIdRoute({
   const addProducttoShoppingCart = addItem.bind(null, data.id);
 
   const colorOptions = [
-    { value: "default", label: "Default", price: 0 },
     { value: "color1", label: data.color1, price: data.colorVal1 },
     { value: "color2", label: data.color2, price: data.colorVal2 },
     { value: "color3", label: data.color3, price: data.colorVal3 },
@@ -66,7 +65,6 @@ export default async function ProductIdRoute({
   ].filter((option) => option.label);
 
   const sizeOptions = [
-    { value: "default", label: "Default", price: 0 },
     { value: "size1", label: data.size1, price: data.sizeVal1 },
     { value: "size2", label: data.size2, price: data.sizeVal2 },
     { value: "size3", label: data.size3, price: data.sizeVal3 },
@@ -76,7 +74,7 @@ export default async function ProductIdRoute({
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start lg:gap-x-24 py-6 max-w-7xl mx-auto md:px-6 px-4 lg:px-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start lg:gap-x-24 py-6 max-w-7xl mx-auto md:px-6 px-4 lg:px-8">
         <ImageSlider images={data.images} />
         <ProductDetails
           name={data.name}
