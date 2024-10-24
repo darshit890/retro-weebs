@@ -1,6 +1,8 @@
+'use client'
+
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { ShoppingBag, Menu, User, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,8 +11,6 @@ import {
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import { NavbarLinks } from "./NavbarLinks";
 import { UserDropdown } from "./UserDropdown";
-import { redis } from "@/lib/redis";
-import { Cart } from "@/lib/interface";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
@@ -21,36 +21,38 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import SearchBar from "./SearchBar";
+import { nav } from "./NavbarData";
 
-export async function Navbar() {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+interface NavbarProps {
+  user: any;
+  total: number;
+}
 
-  const cart: Cart | null = await redis.get(`cart-${user?.id}`);
-  const total = cart?.items.reduce((sum, item) => sum + item.quantity, 0) || 0;
+export function Navbar({ user, total }: NavbarProps) {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const nav = [
-    { name: "All Categories", href: "/category" },
-    { name: "T-shirts", href: "/category/tshirts" },
-    { name: "Shorts", href: "/category/shorts" },
-    { name: "Joggers", href: "/category/joggers" },
-    { name: "Hoodies", href: "/category/hoodies" },
-    { name: "Oversized Tees", href: "/category/oversized" },
-  ];
+  const handleSearchClose = () => {
+    setIsSearchOpen(false);
+  };
+
+  const handleMenuClose = () => {
+    setIsMenuOpen(false);
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-background border-b py-2">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Sheet>
+            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon" className="text-foreground">
                   <Menu className="h-6 w-6" />
                   <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0">
+              <SheetContent side="left" className="w-[300px] sm:w-[400px] p-0">
                 <div className="flex flex-col h-full">
                   <div className="p-4 bg-muted">
                     {user ? (
@@ -90,13 +92,15 @@ export async function Navbar() {
                   <nav className="flex-1 overflow-y-auto">
                     <div className="p-4 space-y-4">
                       {nav.map((item, index) => (
-                        <Link
-                          href={item.href}
-                          key={index}
-                          className="flex flex-col space-y-2"
-                        >
-                          {item.name}
-                        </Link>
+                        <SheetClose key={index} asChild>
+                          <Link
+                            href={item.href}
+                            className="flex flex-col space-y-2"
+                            onClick={handleMenuClose}
+                          >
+                            {item.name}
+                          </Link>
+                        </SheetClose>
                       ))}
                     </div>
                   </nav>
@@ -104,25 +108,33 @@ export async function Navbar() {
                   <div className="p-4">
                     {user ? (
                       <>
-                        <Button
-                          variant="outline"
-                          className="w-full mb-2"
-                          asChild
-                        >
-                          <Link href="/order-history">Order History</Link>
-                        </Button>
-                        <Button variant="outline" className="w-full" asChild>
-                          <Link href="/api/auth/logout">Sign out</Link>
-                        </Button>
+                        <SheetClose asChild>
+                          <Button
+                            variant="outline"
+                            className="w-full mb-2"
+                            asChild
+                          >
+                            <Link href="/order-history" onClick={handleMenuClose}>Order History</Link>
+                          </Button>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <Button variant="outline" className="w-full" asChild>
+                            <Link href="/api/auth/logout" onClick={handleMenuClose}>Sign out</Link>
+                          </Button>
+                        </SheetClose>
                       </>
                     ) : (
                       <div className="space-y-2">
-                        <Button variant="outline" className="w-full" asChild>
-                          <LoginLink>Sign in</LoginLink>
-                        </Button>
-                        <Button variant="default" className="w-full" asChild>
-                          <RegisterLink>Create Account</RegisterLink>
-                        </Button>
+                        <SheetClose asChild>
+                          <Button variant="outline" className="w-full" asChild>
+                            <LoginLink>Sign in</LoginLink>
+                          </Button>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <Button variant="default" className="w-full" asChild>
+                            <RegisterLink>Create Account</RegisterLink>
+                          </Button>
+                        </SheetClose>
                       </div>
                     )}
                   </div>
@@ -185,7 +197,7 @@ export async function Navbar() {
           </div>
 
           <div className="flex md:hidden items-center space-x-2">
-            <Sheet>
+            <Sheet open={isSearchOpen} onOpenChange={setIsSearchOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="text-foreground">
                   <Search className="h-6 w-6" />
@@ -194,13 +206,13 @@ export async function Navbar() {
               </SheetTrigger>
               <SheetContent side="top" className="w-full p-0 flex-row flex justify-between pr-5">
                 <div className="p-4 flex-1">
-                  <SearchBar />
+                  <SearchBar onClose={handleSearchClose} />
                 </div>
-              <SheetClose>
-                <Button variant={"outline"} size={"sm"} className="flex">
-                  Close
-                </Button>
-              </SheetClose>
+                <SheetClose>
+                  <Button variant="outline" size="sm" className="flex">
+                    Close
+                  </Button>
+                </SheetClose>
               </SheetContent>
             </Sheet>
             {user ? (

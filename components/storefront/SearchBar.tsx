@@ -49,18 +49,18 @@ export default function SearchBar({ onClose }: { onClose?: () => void }) {
   }
 
   const handleSuggestionClick = async (productId: string) => {
-    setShowSuggestions(false)
-    setQuery('')
-    onClose?.()
+    setShowSuggestions(false);
+    setQuery('');
+    onClose?.();
     
-    const productUrl = `/product/${productId}`
+    const productUrl = `/product/${productId}`;
     
     try {
-      await router.push(productUrl)
+      await router.push(productUrl);
     } catch (error) {
-      console.error('Navigation failed:', error)
+      console.error('Navigation failed:', error);
     }
-  }
+  };
 
   const handleClose = () => {
     setQuery('')
