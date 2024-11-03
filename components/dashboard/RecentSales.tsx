@@ -4,6 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 async function getData() {
   const data = await prisma.order.findMany({
+    where: {
+      status: "paid" // Only fetch paid orders
+    },
     select: {
       amount: true,
       id: true,
