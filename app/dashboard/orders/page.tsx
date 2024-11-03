@@ -34,6 +34,12 @@ async function getData() {
           quantity: true,
           color: true,
           size: true,
+          product: {  // Added product relation
+            select: {
+              name: true,
+              images: true,
+            },
+          },
         },
       },
       address: true,
@@ -48,6 +54,7 @@ async function getData() {
 
 export default async function OrdersPage() {
   const data = await getData();
+
   return (
     <Card>
       <CardHeader className="px-7">
@@ -59,7 +66,7 @@ export default async function OrdersPage() {
           <TableHeader>
             <TableRow>
               <TableHead>Customer</TableHead>
-              <TableHead>Type</TableHead>
+              <TableHead>Product Details</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Quantity</TableHead>
@@ -78,8 +85,25 @@ export default async function OrdersPage() {
                     {item.User?.email}
                   </p>
                 </TableCell>
-                <TableCell>Order</TableCell>
-                <TableCell>{item.status === 'created' ? 'Failed' : item.status}</TableCell>
+                <TableCell>
+                  <div className="flex flex-col gap-2">
+                    {item.items.map((orderItem, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        {orderItem.product?.images[0] && (
+                          <img
+                            src={orderItem.product.images[0]}
+                            alt={orderItem.product?.name}
+                            className="w-10 h-10 object-cover rounded"
+                          />
+                        )}
+                        <span className="text-sm">{orderItem.product?.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  {item.status === 'created' ? 'Failed' : item.status}
+                </TableCell>
                 <TableCell>
                   {new Intl.DateTimeFormat("en-US").format(item.createdAt)}
                 </TableCell>

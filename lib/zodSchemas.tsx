@@ -7,7 +7,12 @@ export const productSchema = z.object({
   price: z.number().min(1),
   images: z.array(z.string()).min(1, "At least one image is required"),
   category: z.enum(["tshirts", "oversized", "joggers", "hoodies", "shorts"]),
-  isFeatured: z.boolean().optional(),
+  isFeatured: z.preprocess((val) => {
+    if (typeof val === 'string') {
+      return val === 'true' || val === 'on';
+    }
+    return Boolean(val);
+  }, z.boolean()),
   color1: z.string().optional(),
   color2: z.string().optional(),
   color3: z.string().optional(),

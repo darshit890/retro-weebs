@@ -8,13 +8,13 @@ datasource db {
 }
 
 model User {
-  id           String @id @unique
+  id           String    @id @unique
   email        String
   firstName    String
   lastName     String
-  profileImage String 
-  order Order[]
-  createdAt DateTime @default(now())
+  profileImage String
+  order        Order[]
+  createdAt    DateTime  @default(now())
 }
 
 model Product {
@@ -46,33 +46,35 @@ model Product {
   sizeVal3    Int
   sizeVal4    Int
   sizeVal5    Int
-  createdAt DateTime @default(now())
+  createdAt   DateTime      @default(now())
+  OrderItem   OrderItem[]   // Add this line to establish the relation
 }
 
 model Banner {
-  id          String @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   imageString String
-  createdAt DateTime @default(now())
+  createdAt   DateTime @default(now())
 }
 
 model Order {
-  id                String     @id @default(uuid())
-  status            String     
+  id                String      @id @default(uuid())
+  status            String
   amount            Int
-  razorpayOrderId   String?    @unique
+  razorpayOrderId   String?     @unique
   razorpayPaymentId String?
-  User              User?      @relation(fields: [userId], references: [id])
+  User              User?       @relation(fields: [userId], references: [id])
   userId            String?
   items             OrderItem[]
-  address           Address?   // New field
-  createdAt         DateTime   @default(now())
+  address           Address?
+  createdAt         DateTime    @default(now())
 }
 
 model OrderItem {
   id        String  @id @default(uuid())
   order     Order   @relation(fields: [orderId], references: [id])
   orderId   String
+  product   Product @relation(fields: [productId], references: [id]) // Add this line
   productId String
   quantity  Int
   color     String
