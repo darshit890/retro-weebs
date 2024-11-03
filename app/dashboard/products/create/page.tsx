@@ -108,13 +108,21 @@ import { SubmitButton } from "@/components/SubmitButtons";
               <p className="text-red-500">{fields.price.errors}</p>
             </div>
 
-            <div className="flex flex-col gap-3">
+                        <div className="flex flex-col gap-3">
               <Label>Featured Product</Label>
-              <Switch
-                key={fields.isFeatured.key}
-                name={fields.isFeatured.name}
-                defaultValue={fields.isFeatured.initialValue}
-              />
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="isFeatured"
+                  key={fields.isFeatured.key}
+                  checked={isFeatured}
+                  onCheckedChange={handleFeaturedChange}
+                />
+                <input
+                  type="hidden"
+                  name={fields.isFeatured.name}
+                  value={isFeatured ? "true" : "false"}
+                />
+              </div>
               <p className="text-red-500">{fields.isFeatured.errors}</p>
             </div>
             <div className="flex flex-col gap-3">
