@@ -32,22 +32,27 @@ import Image from "next/image";
 import { categories } from "@/lib/categories";
 import { SubmitButton } from "@/components/SubmitButtons";
 
-const Page = () => {
-  const [images, setImages] = useState<string[]>([]);
-  const [lastResult, action] = useFormState(createProduct, undefined);
+  const [images, setImages] = useState(data.images);
+  const [isFeatured, setIsFeatured] = useState(data.isFeatured);
+  const [lastResult, action] = useFormState(editProduct, undefined);
   const [form, fields] = useForm({
     lastResult,
-
     onValidate({ formData }) {
-      return parseWithZod(formData, { schema: productSchema });
+      const result = parseWithZod(formData, { schema: productSchema });
+      return result;
     },
-
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
   });
+
   const handleDelete = (index: number) => {
     setImages(images.filter((_, i) => i !== index));
   };
+
+  const handleFeaturedChange = (checked: boolean) => {
+    setIsFeatured(checked);
+  };
+
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={action}>
       <div className="flex items-center gap-4">
