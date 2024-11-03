@@ -32,19 +32,21 @@ import Image from "next/image";
 import { categories } from "@/lib/categories";
 import { SubmitButton } from "@/components/SubmitButtons";
 
-  const [images, setImages] = useState(data.images);
-  const [isFeatured, setIsFeatured] = useState(data.isFeatured);
-  const [lastResult, action] = useFormState(editProduct, undefined);
+const Page = () => {
+  const [images, setImages] = useState<string[]>([]);
+  const [isFeatured, setIsFeatured] = useState(false);
+  const [lastResult, action] = useFormState(createProduct, undefined);
   const [form, fields] = useForm({
     lastResult,
+
     onValidate({ formData }) {
-      const result = parseWithZod(formData, { schema: productSchema });
-      return result;
+      return parseWithZod(formData, { schema: productSchema });
     },
+
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
   });
-
+  
   const handleDelete = (index: number) => {
     setImages(images.filter((_, i) => i !== index));
   };
@@ -52,7 +54,6 @@ import { SubmitButton } from "@/components/SubmitButtons";
   const handleFeaturedChange = (checked: boolean) => {
     setIsFeatured(checked);
   };
-
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={action}>
       <div className="flex items-center gap-4">
@@ -108,7 +109,7 @@ import { SubmitButton } from "@/components/SubmitButtons";
               <p className="text-red-500">{fields.price.errors}</p>
             </div>
 
-                        <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3">
               <Label>Featured Product</Label>
               <div className="flex items-center space-x-2">
                 <Switch
