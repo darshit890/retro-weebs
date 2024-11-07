@@ -147,7 +147,7 @@ export function Navbar({ user, total }: NavbarProps) {
             </div>
           </div>
 
-          <div className="flex-1  ml-2 max-w-md mx-auto">
+          <div className="flex-1  xl:ml-52 ml-2  mx-auto">
             <Link href="/" className="flex-shrink-0">
               <Image
                 src="/RETROWEEBS.png"
